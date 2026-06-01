@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Мягкое самозасыпание · momteymi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Geologica:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --ink: #1C1A17;
+    --muted: #7A7568;
+    --accent: #C4622D;
+    --accent-light: #F2E8E0;
+    --green: #3B6D11;
+    --green-light: #EAF3DE;
+    --purple: #534AB7;
+    --purple-light: #EEEDFE;
+    --red: #993C1D;
+    --red-light: #FAECE7;
+    --blue: #185FA5;
+    --blue-light: #E6F1FB;
+    --border: rgba(28,26,23,0.12);
+    --card-bg: #FFFFFF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Geologica', sans-serif;
+    font-weight: 300;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.75;
+    padding: 48px 24px 80px;
+  }
+
+  /* HEADER */
+  .page-header {
+    max-width: 760px;
+    margin: 0 auto 56px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .page-tag {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+  .page-header p {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.65;
+  }
+  .page-header .author {
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .author-dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  /* CARD */
+  .post-card {
+    max-width: 760px;
+    margin: 0 auto 32px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .post-header {
+    padding: 24px 32px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .post-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 400;
+    color: rgba(28,26,23,0.1);
+    line-height: 1;
+    flex-shrink: 0;
+    min-width: 48px;
+  }
+  .post-meta { flex: 1; }
+  .post-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 10px;
+  }
+  .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.02em;
+  }
+  .b-accent  { background: var(--accent-light); color: var(--accent); }
+  .b-green   { background: var(--green-light);  color: var(--green);  }
+  .b-purple  { background: var(--purple-light); color: var(--purple); }
+  .b-red     { background: var(--red-light);    color: var(--red);    }
+  .b-blue    { background: var(--blue-light);   color: var(--blue);   }
+  .b-muted   { background: #F1EFE8; color: #5F5E5A; }
+
+  /* HOOK */
+  .hook-block {
+    padding: 18px 32px;
+    background: var(--accent-light);
+    border-bottom: 1px solid var(--border);
+  }
+  .hook-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--accent);
+    margin-bottom: 5px;
+  }
+  .hook-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.45;
+  }
+
+  /* BODY */
+  .post-body { padding: 26px 32px; }
+  .section { margin-bottom: 22px; }
+  .section:last-child { margin-bottom: 0; }
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  /* CONTENT BOX */
+  .content-box {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 4px 0;
+  }
+  .cb-item {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .cb-item:last-child { border-bottom: none; }
+  .cb-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+  .cb-text { color: var(--ink); }
+  .cb-text strong { font-weight: 500; color: var(--accent); }
+
+  /* PLAIN LIST */
+  .plain-list { list-style: none; }
+  .plain-list li {
+    display: flex;
+    gap: 10px;
+    padding: 7px 0;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border);
+    align-items: flex-start;
+    color: var(--ink);
+  }
+  .plain-list li:last-child { border-bottom: none; }
+  .plain-list li::before { content: '—'; color: var(--accent); flex-shrink: 0; }
+  .red-list li { color: var(--red); }
+  .red-list li::before { content: '✕'; color: var(--red); font-size: 11px; margin-top: 3px; }
+
+  /* AGE GRID */
+  .age-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  @media (max-width: 520px) { .age-grid { grid-template-columns: 1fr; } }
+  .age-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .age-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .age-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 3px 0;
+    color: var(--ink);
+    gap: 8px;
+  }
+  .age-key { color: var(--muted); flex-shrink: 0; }
+  .age-val { font-weight: 500; text-align: right; }
+
+  /* TIP */
+  .tip-box {
+    display: flex;
+    gap: 12px;
+    background: var(--purple-light);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 14px;
+    color: var(--purple);
+    line-height: 1.6;
+    margin-top: 16px;
+  }
+  .tip-icon { font-size: 15px; flex-shrink: 0; margin-top: 2px; }
+
+  /* STORY BOX */
+  .story-box {
+    background: var(--green-light);
+    border-left: 3px solid var(--green);
+    border-radius: 0 10px 10px 0;
+    padding: 16px 20px;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+
+  /* CONCLUSION */
+  .conclusion {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 20px;
+    font-size: 14px;
+    color: var(--accent);
+    line-height: 1.6;
+    font-style: normal;
+    letter-spacing: normal;
+    font-family: 'Geologica', sans-serif;
+  }
+
+  /* SELL BLOCK */
+  .sell-card {
+    max-width: 760px;
+    margin: 48px auto 0;
+    background: var(--ink);
+    border-radius: 16px;
+    padding: 44px 40px;
+    color: #fff;
+    text-align: center;
+  }
+  .sell-tag {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .sell-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  .sell-card .sell-lead {
+    font-size: 15px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.7;
+    max-width: 500px;
+    margin: 0 auto 10px;
+  }
+  .sell-card .sell-result {
+    font-size: 15px;
+    color: #fff;
+    font-weight: 500;
+    line-height: 1.65;
+    max-width: 500px;
+    margin: 0 auto 28px;
+    background: rgba(196,98,45,0.18);
+    border-radius: 10px;
+    padding: 14px 20px;
+  }
+  .sell-divider {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 16px;
+  }
+  .sell-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    margin: 0 auto 32px;
+    text-align: left;
+  }
+  .sell-item {
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.85);
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+  .sell-item::before { content: '✓'; color: var(--accent); flex-shrink: 0; font-weight: 600; margin-top: 1px; }
+  .sell-btn {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Geologica', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 16px 40px;
+    border-radius: 10px;
+    text-decoration: none;
+    letter-spacing: normal;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="page-header">
+  <div class="page-tag">momteymi · мягкое самозасыпание</div>
+  <h1>Готовые режимы сна<br>от 0 до 12 месяцев</h1>
+  <p>Я создала этот гайд для мам, которые устали искать противоречивые советы и просто хотят понять своего малыша. Здесь нет жёстких методов — только мягкие рекомендации, режимы и подсказки, которые помогают наладить сон спокойнее и понятнее.</p>
+  <div class="author">
+    <div class="author-dot"></div>
+    <span>momteymi · мягкий подход к детскому сну</span>
+  </div>
+</div>
+
+<!-- РАЗДЕЛ 1 — НОРМЫ ПО ВОЗРАСТУ -->
+<div class="post-card">
+  <div class="post-header">
+    <div class="post-num">01</div>
+    <div class="post-meta">
+      <div class="post-title">Нормы сна от 0 до 12 месяцев</div>
+      <div class="badges">
+        <span class="badge b-blue">Режим</span>
+        <span class="badge b-muted">По возрасту</span>
+      </div>
+    </div>
+  </div>
+  <div class="hook-block">
+    <div class="hook-label">Главная мысль</div>
+    <div class="hook-text">«Важно не ориентироваться на часы — следить за признаками усталости»</div>
+  </div>
+  <div class="post-body">
+    <div class="section">
+      <div class="section-label">Нормы по возрасту</div>
+      <div class="age-grid">
+
+        <div class="age-card">
+          <div class="age-title">0–1 месяц</div>
+          <div class="age-row"><span class="age-key">Суточный сон</span><span class="age-val">16–20 ч</span></div>
+          <div class="age-row"><span class="age-key">Время бодрствования</span><span class="age-val">20–60 мин</span></div>
+          <div class="age-row"><span class="age-key">Дневных снов</span><span class="age-val">4–8</span></div>
+          <div class="age-row"><span class="age-key">Длит. дневных</span><span class="age-val">15 мин – 4 ч</span></div>
+        </div>
+
+        <div class="age-card">
+          <div class="age-title">1–2 месяца</div>
+          <div class="age-row"><span class="age-key">Суточный сон</span><span class="age-val">14–17 ч</span></div>
+          <div class="age-row"><span class="age-key">Время бодрствования</span><span class="age-val">50 мин – 1.20 ч</span></div>
+          <div class="age-row"><span class="age-key">Дневных снов</span><span class="age-val">4–5</span></div>
+          <div class="age-row"><span class="age-key">Длит. дневных</span><span class="age-val">30 мин – 2 ч</span></div>
+        </div>
+
+        <div class="age-card">
+          <div class="age-title">3 месяца</div>
+          <div class="age-row"><span class="age-key">Суточный сон</span><span class="age-val">14–17 ч</span></div>
+          <div class="age-row"><span class="age-key">Время бодрствования</span><span class="age-val">1.20–1.40 ч</span></div>
+          <div class="age-row"><span class="age-key">Дневных снов</span><span class="age-val">3–4</span></div>
+          <div class="age-row"><span class="age-key">Длит. дневных</span><span class="age-val">30 мин – 2 ч</span></div>
+        </div>
+
+        <div class="age-card">
+          <div class="age-title">4 месяца</div>
+          <div class="age-row"><span class="age-key">Суточный сон</span><span class="age-val">14–16 ч</span></div>
+          <div class="age-row"><span class="age-key">Время бодрствования</span><span class="age-val">1.30–2 ч</span></div>
+          <div class="age-row"><span class="age-key">Дневных снов</span><span class="age-val">3–4</span></div>
+          <div class="age-row"><span class="age-key">Длит. дневных</span><span class="age-val">30 мин – 2 ч</span></div>
+        </div>
+
+        <div class="age-card">
+          <div class="age-title">5 месяцев</div>
+          <div class="age-row"><span class="age-key">Суточный сон</span><span class="age-val">13–16 ч</span></div>
+          <div class="age-row"><span class="age-key">Время бодрствования</span><span class="age-val">1.45–2.15 ч</span></div>
+          <div class="age-row"><span class="age-key">Дневных снов</span><span class="age-val">3</span></div>
+          <div class="age-row"><span class="age-key">Длит. дневных</span><span class="age-val">30 мин – 2 ч</span></div>
+        </div>
+
+        <div class="age-card">
+          <div class="age-title">6–7 месяцев</div>
+          <div class="age-row"><span class="age-key">Суточный сон</span><span class="age-val">13–15 ч</span></div>
+          <div class="age-row"><span class="age-key">Время бодрствования</span><span class="age-val">2.30–3 ч</span></div>
+          <div class="age-row"><span class="age-key">Дневных снов</span><span class="age-val">2–3</span></div>
+          <div class="age-row"><span class="age-key">Длит. дневных</span><span class="age-val">1–2 ч</span></div>
+        </div>
+
+        <div class="age-card">
+          <div class="age-title">8–10 месяцев</div>
+          <div class="age-row"><span class="age-key">Суточный сон</span><span class="age-val">13–15 ч</span></div>
+          <div class="age-row"><span class="age-key">Время бодрствования</span><span class="age-val">3–3.45 ч</span></div>
+          <div class="age-row"><span class="age-key">Дневных снов</span><span class="age-val">2</span></div>
+          <div class="age-row"><span class="age-key">Длит. дневных</span><span class="age-val">1–2 ч</span></div>
+        </div>
+
+        <div class="age-card">
+          <div class="age-title">10–12 месяцев</div>
+          <div class="age-row"><span class="age-key">Суточный сон</span><span class="age-val">12.5–13 ч</span></div>
+          <div class="age-row"><span class="age-key">Время бодрствования</span><span class="age-val">3.30–4.30 ч</span></div>
+          <div class="age-row"><span class="age-key">Дневных снов</span><span class="age-val">2 (редко 1)</span></div>
+          <div class="age-row"><span class="age-key">Длит. дневных</span><span class="age-val">1–2 ч</span></div>
+        </div>
+
+        <div class="age-card">
+          <div class="age-title">12–18 месяцев</div>
+          <div class="age-row"><span class="age-key">Суточный сон</span><span class="age-val">12.5–13 ч</span></div>
+          <div class="age-row"><span class="age-key">Время бодрствования</span><span class="age-val">4–5 ч</span></div>
+          <div class="age-row"><span class="age-key">Дневных снов</span><span class="age-val">1–2</span></div>
+          <div class="age-row"><span class="age-key">Длит. дневных</span><span class="age-val">1–2 ч</span></div>
+        </div>
+
+      </div>
+    </div>
+    <div class="tip-box">
+      <div class="tip-icon">→</div>
+      <div>Не гонись за точными цифрами. Если малыш активен, в хорошем настроении и засыпает без истерик — значит режим подходит. Цифры — ориентир, не закон.</div>
+    </div>
+  </div>
+</div>
+
+<!-- РАЗДЕЛ 2 — ЧТО ТАКОЕ САМОЗАСЫПАНИЕ -->
+<div class="post-card">
+  <div class="post-header">
+    <div class="post-num">02</div>
+    <div class="post-meta">
+      <div class="post-title">Что такое самозасыпание</div>
+      <div class="badges">
+        <span class="badge b-accent">Основы</span>
+        <span class="badge b-muted">Важно знать</span>
+      </div>
+    </div>
+  </div>
+  <div class="hook-block">
+    <div class="hook-label">Главная мысль</div>
+    <div class="hook-text">«Самозасыпание — это не про то, чтобы оставить малыша плакать одного»</div>
+  </div>
+  <div class="post-body">
+    <div class="section">
+      <div class="content-box">
+        <div class="cb-item">
+          <div class="cb-label">Что это такое</div>
+          <div class="cb-text">Самозасыпание — это <strong>навык спокойно переходить ко сну и соединять циклы сна без сильной помощи</strong>. Не метод «проплакаться», а постепенное обучение.</div>
+        </div>
+        <div class="cb-item">
+          <div class="cb-label">Почему малыш плохо засыпает</div>
+          <div class="cb-text">Причинами могут быть <strong>перегул, короткие дневные сны, позднее укладывание, перевозбуждение</strong> или сильные ассоциации на сон.</div>
+        </div>
+        <div class="cb-item">
+          <div class="cb-label">Подготовка к самозасыпанию</div>
+          <div class="cb-text">Перед началом важно наладить режим: <strong>стабильный подъём, подходящее время бодрствования, затемнение комнаты, белый шум</strong> и спокойный ритуал перед сном.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- РАЗДЕЛ 3 — АССОЦИАЦИИ -->
+<div class="post-card">
+  <div class="post-header">
+    <div class="post-num">03</div>
+    <div class="post-meta">
+      <div class="post-title">Ассоциации на сон и как с ними работать</div>
+      <div class="badges">
+        <span class="badge b-purple">Ассоциации</span>
+        <span class="badge b-muted">Мягкий подход</span>
+      </div>
+    </div>
+  </div>
+  <div class="hook-block">
+    <div class="hook-label">Главная мысль</div>
+    <div class="hook-text">«Убирать помощь нужно постепенно — не резко»</div>
+  </div>
+  <div class="post-body">
+    <div class="section">
+      <div class="section-label">Что такое сильная ассоциация</div>
+      <div class="content-box">
+        <div class="cb-item">
+          <div class="cb-text">Если малыш засыпает только <strong>на руках, с укачиванием или грудью</strong> — это сильная ассоциация. При смене цикла сна он ищет то же условие и просыпается.</div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-label">Мягкие методы самозасыпания</div>
+      <div class="content-box">
+        <div class="cb-item">
+          <div class="cb-label">Метод постепенного ухода</div>
+          <div class="cb-text">Сначала мама рядом — затем <strong>дальше и дальше</strong>. Малыш учится засыпать, чувствуя присутствие, но без прямого контакта.</div>
+        </div>
+        <div class="cb-item">
+          <div class="cb-label">Метод уменьшения помощи</div>
+          <div class="cb-text">Каждый день <strong>чуть меньше укачивания</strong> или помощи. Постепенное снижение интенсивности — без стресса для малыша и мамы.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- РАЗДЕЛ 4 — ПЛАЧ И ОШИБКИ -->
+<div class="post-card">
+  <div class="post-header">
+    <div class="post-num">04</div>
+    <div class="post-meta">
+      <div class="post-title">Плач и частые ошибки</div>
+      <div class="badges">
+        <span class="badge b-red">Ошибки</span>
+        <span class="badge b-muted">Что делать с протестом</span>
+      </div>
+    </div>
+  </div>
+  <div class="hook-block">
+    <div class="hook-label">Главная мысль</div>
+    <div class="hook-text">«Небольшой протест при изменениях — норма. Главное — не оставлять малыша одного в сильной истерике»</div>
+  </div>
+  <div class="post-body">
+    <div class="section">
+      <div class="section-label">Что делать с плачем</div>
+      <div class="content-box">
+        <div class="cb-item">
+          <div class="cb-text">Небольшое сопротивление при изменениях — это нормально. Малыш привык к старому способу. Важно быть рядом, успокаивать, но <strong>не возвращаться к старой ассоциации</strong> при первом же хныканье.</div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-label">Частые ошибки</div>
+      <div class="content-box">
+        <ul class="plain-list red-list">
+          <li>Начинать слишком рано — до готовности малыша и режима</li>
+          <li>Менять методы каждый день — нет системности, нет результата</li>
+          <li>Ждать результата за пару дней — нужно минимум 1–2 недели</li>
+          <li>Пропускать окно в сон — начинается перегул и истерики</li>
+          <li>Резко убирать все ассоциации — только постепенно</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- РАЗДЕЛ 5 — КАК ПОЙМАТЬ ОКНО -->
+<div class="post-card">
+  <div class="post-header">
+    <div class="post-num">05</div>
+    <div class="post-meta">
+      <div class="post-title">Как поймать окно в сон</div>
+      <div class="badges">
+        <span class="badge b-green">Практика</span>
+        <span class="badge b-muted">Главный навык</span>
+      </div>
+    </div>
+  </div>
+  <div class="hook-block">
+    <div class="hook-label">Главная мысль</div>
+    <div class="hook-text">«Самое главное — не пропустить окно в сон. Если пропустить — начинается перегул, истерики, долго не может уснуть»</div>
+  </div>
+  <div class="post-body">
+    <div class="section">
+      <div class="section-label">Пошаговый алгоритм</div>
+      <div class="content-box">
+        <div class="cb-item">
+          <div class="cb-label">Шаг 1 — Следи за временем бодрствования</div>
+          <div class="cb-text">Ориентируйся на нормы ВБ для возраста. Когда время подходит к концу — начинай наблюдать за малышом.</div>
+        </div>
+        <div class="cb-item">
+          <div class="cb-label">Шаг 2 — Увидела снижение энергии</div>
+          <div class="cb-text"><strong>Энергия резко снизилась, малыш стал тише, трёт глаза или смотрит в одну точку</strong> — это мостик на сон. Действуй сразу.</div>
+        </div>
+        <div class="cb-item">
+          <div class="cb-label">Шаг 3 — Создай условия</div>
+          <div class="cb-text">Убери игрушки, <strong>приглуши свет, включи белый шум</strong>, покорми (грудь или смесь), успокой нервную систему.</div>
+        </div>
+        <div class="cb-item">
+          <div class="cb-label">Шаг 4 — Укладывай</div>
+          <div class="cb-text">Спокойный ритуал — и в кроватку. Окно поймано вовремя — засыпание будет лёгким.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- РАЗДЕЛ 6 — МОЙ ОПЫТ -->
+<div class="post-card">
+  <div class="post-header">
+    <div class="post-num">06</div>
+    <div class="post-meta">
+      <div class="post-title">Мой личный опыт</div>
+      <div class="badges">
+        <span class="badge b-green">История</span>
+        <span class="badge b-muted">Реальный результат</span>
+      </div>
+    </div>
+  </div>
+  <div class="hook-block">
+    <div class="hook-label">Главная мысль</div>
+    <div class="hook-text">«В 8 месяцев она сама засыпает за 3 минуты — без укачивания и без меня рядом»</div>
+  </div>
+  <div class="post-body">
+    <div class="section">
+      <div class="story-box">
+        Я укладывала малышку на шезлонге с помощью укачивания. Затем постепенно начала убирать шезлонг. Выключала всё ко сну, важно чтоб было максимально темно, переодевала в пижаму (ассоциация на сон), укладывала рядом с собой, обнимала и гладила между бровок, или похлопывала по попке пока не заснёт.<br><br>
+        Затем постепенно на ночной сон она начала уходить без моей помощи. Укладываю в кроватку — и она сама засыпает за 3 минуты. Всего в 8 месяцев. Сопротивления конечно же были и у нас тоже.
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-label">Что помогло</div>
+      <div class="content-box">
+        <ul class="plain-list">
+          <li>Постепенное убирание ассоциаций — не резко</li>
+          <li>Максимальная темнота в комнате</li>
+          <li>Пижама как стабильная ассоциация на сон</li>
+          <li>Тактильный контакт вместо укачивания</li>
+          <li>Терпение — сопротивление было, но прошло</li>
+        </ul>
+      </div>
+    </div>
+    <div class="conclusion">
+      Мягкий подход работает. Просто нужно время, последовательность и доверие к своему малышу.
+    </div>
+  </div>
+</div>
+
+<!-- ПРОДАЮЩИЙ БЛОК -->
+<div class="sell-card">
+  <div class="sell-tag">Следующий шаг</div>
+  <h2>Составлю режим<br>именно для твоего малыша</h2>
+  <p class="sell-lead">Не шаблон из интернета — а личный режим под возраст, особенности и ситуацию твоего ребёнка. Когда режим выстроен правильно, малыш не перегуливает и не догуливает, нервная система спокойна — и он готов засыпать сам.</p>
+  <div class="sell-result">
+    Правильный режим → малыш спокоен → нет перегула → нет истерик при укладке → самозасыпание приходит само
+  </div>
+  <div class="sell-divider">Что ты получишь</div>
+  <div class="sell-items">
+    <div class="sell-item">Личный режим под возраст и ритм именно твоего малыша</div>
+    <div class="sell-item">Правильные окна бодрствования — без перегула и недогула</div>
+    <div class="sell-item">Пошаговый план мягкого самозасыпания без слёз</div>
+    <div class="sell-item">Что делать с ночными пробуждениями и короткими снами</div>
+    <div class="sell-item">Поддержка — отвечу на вопросы по режиму лично</div>
+  </div>
+  <a class="sell-btn" href="https://ig.me/m/momteymi" target="_blank">Написать кодовое слово СОН</a>
+</div>
+
+</body>
+</html>
